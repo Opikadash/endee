@@ -357,21 +357,13 @@ int main(int argc, char** argv) {
 
                 // Get quantization level (default to INT16)
                 std::string precision = body.has("precision") ? std::string(body["precision"].s()) : "int16";
-
-                if(precision == "int8d") {
-                    precision = "int8";
-                } else if(precision == "int16d") {
-                    precision = "int16";
+                // Added int8d and int16d handling 
+                if(precision == "int8" || precision == "int8d") {
+                    precision = "int8d";// Normalize to internal format
+                } else if(precision == "int16" || precision == "int16d") {
+                    precision = "int16d";// Normalize to internal format
                 }
                 
-                
-                if(precision == "int8" || precision == "int8d") {
-				// Added "int8"
-                    precision = "int8d";  // Normalize to internal format
-                 // int8d handling 
-                } else if(precision == "int16" || precision == "int16d") {  
-				 //Added "int16"
-                    precision = "int16d";  // Normalize to internal format
                 ndd::quant::QuantizationLevel quant_level = stringToQuantLevel(precision);
 
                 // Validate quantization level
